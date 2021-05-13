@@ -34,7 +34,7 @@ TEST(preconditions, ok) { // NOLINT
   ASSERT_GE(x,0);
 }
 
-TEST(preconditions, fail) {
+TEST(preconditions, fail) { // NOLINT
   ASSERT_DEATH(mysqrt(-1),"Precondition");
 }
 
@@ -44,7 +44,7 @@ TEST(pre_audit, ok) { // NOLINT
   ASSERT_EQ(3, v.size());
 }
 
-TEST(pre_audit, fail) {
+TEST(pre_audit, fail) { // NOLINT
   std::vector<double> v {1, 2, 1, 2, 2, 2, 3};
   ASSERT_DEBUG_DEATH(unique_sorted(v), "Precondition");
 }
