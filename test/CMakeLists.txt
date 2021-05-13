@@ -2,5 +2,7 @@ find_package(GTest)
 
 include_directories(../include)
 
-add_executable(test preconditions.cpp)
-target_link_libraries(test GTest::GTest GTest::Main)
+add_executable(utest preconditions.cpp)
+target_link_libraries(utest GTest::GTest GTest::Main)
+
+gtest_discover_tests(utest)
