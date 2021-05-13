@@ -39,7 +39,10 @@ double sqrt(double x) {
 A general assertion can be specified at any point in code by using macro `contract_assert`:
 
 ```c++
+void f() {
 //...
-contract_assert(x>y);
-//...
+for (int i=0; i<10; ++i) {
+  contract_assert(i>=0 && i<10);
+  //...
+}
 ```

@@ -42,6 +42,8 @@ namespace mincontracts {
 mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 
 #define contract_pre(cond) contract_check("Precondition", cond)
+#define contract_post(cond) contract_check("Postcondition", cond)
+#define contract_assert(cond) contract_check("Assertion", cond)
 
 #ifdef NDEBUG
 #define contract_pre_audit(cond)
@@ -49,12 +51,16 @@ mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 #define contract_pre_audit(cond) contract_check("Precondition", cond)
 #endif
 
-#define contract_post(cond) contract_check("Postcondition", cond)
-
 #ifdef NDEBUG
 #define contract_post_audit(cond)
 #else
 #define contract_post_audit(cond) contract_check("Postcondition", cond)
+#endif
+
+#ifdef NDEBUG
+#define contract_assert_audit(cond)
+#else
+#define contract_assert_audit(cond) contract_check("Assertion", cond)
 #endif
 
 
