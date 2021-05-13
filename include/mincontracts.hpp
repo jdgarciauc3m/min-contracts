@@ -20,13 +20,13 @@
 #include <string>
 
 namespace mincontracts {
-  void contract_log(std::string_view label, std::string_view cond,
+  inline void contract_log(std::string_view label, std::string_view cond,
       std::string_view function, std::string_view file, std::size_t line) {
     std::cerr << label << ": " << cond <<
               " failed in function " << function << "() ["<< file << ":" << line << "]\n";
   }
 
-  void contract_check(bool cond,
+  inline void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
       std::string_view function, std::string_view file, std::size_t line)
   {
@@ -48,5 +48,15 @@ mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 #else
 #define contract_pre_audit(cond) contract_check("Precondition", cond)
 #endif
+
+#define contract_post(cond) contract_check("Postcondition", cond)
+
+#ifdef NDEBUG
+#define contract_post_audit(cond)
+#else
+#define contract_post_audit(cond) contract_check("Postcondition", cond)
+#endif
+
+
 
 #endif //MIN_CONTRACTS_HPP
