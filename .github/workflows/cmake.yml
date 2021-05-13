@@ -27,9 +27,14 @@ jobs:
         repository: google/googletest
         path: gtest
         
+    - name: Check gtest dir
+      run: ls gtest
+        
     - name: Configure GTest Build
       run: cmake -B ${{github.workspace}}/gtest/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} gtest
-      run: ls gtest
+      
+    - name: Check gtest build dir
+      run: ls gtest/build
         
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
