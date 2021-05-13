@@ -1,6 +1,6 @@
 # min-contracts
 
-![Linux builds](https://github.com/jdgarciauc3m/min-contracts/actions/workflows/linux.yml/badge.svg)
+[![Linux builds](https://github.com/jdgarciauc3m/min-contracts/actions/workflows/linux.yml/badge.svg)](https://github.com/jdgarciauc3m/min-contracts/actions)
 
 Minimal contracts library tries to offer a minimal library only solution to support contracts in modern C++.
 
