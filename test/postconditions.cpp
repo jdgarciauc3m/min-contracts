@@ -26,6 +26,13 @@ double mysqrt2(double x) {
   return result;
 }
 
+
+double mysqrt3(double x) {
+  contract_pre(x>=0);
+  auto post = contract_post_result(r,r>0 && r<=x);
+  return post(std::sqrt(x));
+}
+
 TEST(postconditions, ok) { // NOLINT
   auto r = mysqrt2(1);
   ASSERT_EQ(1,r);
@@ -33,4 +40,13 @@ TEST(postconditions, ok) { // NOLINT
 
 TEST(postconditions, fail) { // NOLINT
   ASSERT_DEATH(mysqrt2(0), "Postcondition");
+}
+
+TEST(postconditions_result, ok) { // NOLINT
+  auto r = mysqrt3(1);
+  ASSERT_EQ(1,r);
+}
+
+TEST(postconditions_result, fail) { // NOLINT
+  ASSERT_DEATH(mysqrt3(0), "Postcondition");
 }

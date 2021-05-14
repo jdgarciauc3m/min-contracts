@@ -45,6 +45,13 @@ mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 #define contract_post(cond) contract_check("Postcondition", cond)
 #define contract_assert(cond) contract_check("Assertion", cond)
 
+#define contract_post_result(res,cond)      \
+[&](auto && (res)) -> auto &&{               \
+  contract_post(cond);                      \
+  return std::forward<decltype(res)>(res);  \
+}
+
+
 #ifdef NDEBUG
 #define contract_pre_audit(cond)
 #else
