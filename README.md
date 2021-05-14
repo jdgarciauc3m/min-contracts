@@ -78,3 +78,11 @@ for (int i=0; i<10; ++i) {
 ```
 
 There is also a `contract_assert_audit(cond)` version.
+
+# Acknowledgments
+
+Some ideas used here are inspired by the great series of blog posts by Herb Sutter:
+  * [GotW #98 Solution: Assertion levels](https://herbsutter.com/2021/01/25/gotw-98-solution-assertion-levels-difficulty-5-10/)
+  * [GotW #99 Solution: Postconditions](https://herbsutter.com/2021/02/08/gotw-99-solution-postconditions-difficulty-7-10/)
+  * [GotW #100 Solution: Preconditions, Part 1](https://herbsutter.com/2021/02/25/gotw-100-solution-preconditions-part-1-difficulty-8-10/)
+  * [GotW #101 Solution: Preconditions, Part 2](https://herbsutter.com/2021/03/25/gotw-101-solution-preconditions-part-2-difficulty-7-10/)
