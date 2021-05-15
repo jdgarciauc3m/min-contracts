@@ -3,7 +3,13 @@ project(min-contracts)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  add_compile_options(/W3)
+endif()
 
 enable_testing()
 add_subdirectory(test)
