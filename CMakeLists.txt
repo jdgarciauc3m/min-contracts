@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(min-contracts)
+project(MINCONTRACTS)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -10,6 +10,8 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/W3)
 endif()
+
+add_subdirectory(src)
 
 enable_testing()
 add_subdirectory(test)

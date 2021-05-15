@@ -13,21 +13,7 @@
 //    limitations under the License.
 //
 
-#include "mincontracts/mincontracts.hpp"
+//
+// Created by jdgarcia on 15/5/21.
+//
 
-#include <gtest/gtest.h>
-
-int suma(int i, int j) {
-  int r = 0;
-  for (int k=i; k<j; ++k) {
-    contract_assert(k>=i);
-    contract_assert(k<j);
-    r +=k;
-  }
-  return r;
-}
-
-TEST(assertion, ok) { // NOLINT
-  auto r = suma(2,4);
-  ASSERT_EQ(5, r);
-}

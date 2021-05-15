@@ -13,7 +13,7 @@
 //    limitations under the License.
 //
 
-#include "mincontracts.hpp"
+#include "mincontracts/mincontracts.hpp"
 
 #include <gtest/gtest.h>
 #include <cmath>
