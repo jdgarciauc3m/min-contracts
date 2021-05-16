@@ -11,7 +11,12 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_compile_options(/W3)
 endif()
 
+set(include_dest "include/mincontracts")
+set(lib_dest "lib/mincontracts/${CMAKE_BUILD_TYPE}")
+set(cmake_dest "lib/cmake/mincontracts")
+
 add_subdirectory(src)
 
 enable_testing()
 add_subdirectory(test)
+
