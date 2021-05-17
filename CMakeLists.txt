@@ -14,9 +14,12 @@ endif()
 set(include_dest "include/mincontracts")
 set(lib_dest "lib/mincontracts/${CMAKE_BUILD_TYPE}")
 set(cmake_dest "lib/cmake/mincontracts")
+set(cmake_build_dest "${cmake_dest}/${CMAKE_BUILD_TYPE}")
 
 add_subdirectory(src)
 
 enable_testing()
 add_subdirectory(test)
+
+
 
