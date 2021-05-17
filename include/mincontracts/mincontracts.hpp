@@ -20,33 +20,24 @@
 #include <string>
 
 namespace mincontracts {
-  inline void contract_log(std::string_view label, std::string_view cond,
-      std::string_view function, std::string_view file, std::size_t line) {
-    std::cerr << label << ": " << cond <<
-              " failed in function " << function << "() ["<< file << ":" << line << "]\n";
-  }
+  void contract_log(std::string_view label, std::string_view cond,
+      std::string_view function, std::string_view file, std::size_t line);
 
-  inline void contract_check(bool cond,
+  void contract_check_impl(bool cond,
       std::string_view label, std::string_view cond_text,
-      std::string_view function, std::string_view file, std::size_t line)
-  {
-    if (!cond) [[unlikely]] {
-      contract_log(label, cond_text, function, file, line);
-      std::terminate();
-    }
-  }
+      std::string_view function, std::string_view file, std::size_t line);
 }
 
 
 #define contract_check(label,cond) \
-mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
+mincontracts::contract_check_impl(cond, label, #cond, __func__, __FILE__, __LINE__);
 
 #define contract_pre(cond) contract_check("Precondition", cond)
 #define contract_post(cond) contract_check("Postcondition", cond)
 #define contract_assert(cond) contract_check("Assertion", cond)
 
 #define contract_post_result(res,cond)      \
-[&](auto && (res)) -> auto &&{               \
+[&](auto && (res)) -> auto &&{              \
   contract_post(cond);                      \
   return std::forward<decltype(res)>(res);  \
 }
