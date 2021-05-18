@@ -15,8 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cxx: [g++-10, g++-11]
+        cxx: [g++-10, g++-11, clang++-11]
         buildtype: [Debug, Release]
+        include:
+          - cxx: clang++-11
+            cxxflags: -stdlib=libc++
+            install: sudo apt install libc++-11-dev libc++abi-11-dev
     
 
     steps:
@@ -31,6 +35,7 @@ jobs:
     - name: Configure GTest Build
       env:
         CXX: ${{matrix.cxx}}
+        CXXFLAGS: ${{matrix.cxxflags}}
       run: cmake -B ${{github.workspace}}/gtest/build -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} gtest -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps
 
     - name: Build GTest
