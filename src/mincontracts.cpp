@@ -19,17 +19,20 @@ namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
       std::string_view function, std::string_view file, std::size_t line) {
     std::cerr << label << ": " << cond <<
-              " failed in function " << function << "() ["<< file << ":" << line << "]\n";
+              " failed in function " << function << "() [" << file << ":" << line << "]\n";
   }
 
   void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
-      std::string_view function, std::string_view file, std::size_t line)
-      {
-          if (!cond) [[unlikely]] {
-            contract_log(label, cond_text, function, file, line);
-            std::terminate();
-          }
-      }
+      std::string_view function, std::string_view file, std::size_t line) {
+#if __has_cpp_attribute(unlikely)
+    if (!cond) [[unlikely]] {
+#else
+    if (!cond) {
+#endif
+      contract_log(label, cond_text, function, file, line);
+      std::terminate();
+    }
+  }
 
 }
