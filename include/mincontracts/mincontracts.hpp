@@ -17,7 +17,7 @@
 #define MIN_CONTRACTS_HPP
 
 #include <iostream>
-#include <string>
+#include <string_view>
 
 namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
