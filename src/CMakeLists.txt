@@ -36,3 +36,13 @@ install(
     FILES
     "${CMAKE_BINARY_DIR}/mincontractsConfigVersion.cmake"
     DESTINATION lib/cmake/mincontracts)
+
+add_custom_target(
+    uninstall
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/cmake/mincontracts"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/cmake/mincontracts
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/mincontracts"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/mincontracts
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/include/mincontracts"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/include/mincontracts
+)
