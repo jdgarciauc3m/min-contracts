@@ -21,11 +21,13 @@
 
 namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
-      std::string_view function, std::string_view file, std::size_t line);
+      std::string_view function, std::string_view file,
+      std::size_t line) noexcept;
 
   void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
-      std::string_view function, std::string_view file, std::size_t line);
+      std::string_view function, std::string_view file,
+      std::size_t line) noexcept;
 }
 
 

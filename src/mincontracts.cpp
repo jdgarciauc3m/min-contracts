@@ -17,7 +17,8 @@
 
 namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
-      std::string_view function, std::string_view file, std::size_t line) {
+      std::string_view function, std::string_view file,
+      std::size_t line) noexcept {
     std::cerr << label << ": " << cond <<
               " failed in function " << function << "() [" << file << ":" << line << "]\n";
   }
@@ -35,13 +36,14 @@ namespace mincontracts {
 
   void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
-      std::string_view function, std::string_view file, std::size_t line) {
+      std::string_view function, std::string_view file,
+      std::size_t line) noexcept {
     if (!cond) {
       CONTRACT_UNLIKELY;
       contract_log(label, cond_text, function, file, line);
       std::terminate();
     }
   }
-
 #undef CONTRACT_UNLIKELY
+
 }
