@@ -30,7 +30,6 @@ jobs:
 
       - name: Configure GTest Build
         run: cmake -B ${{github.workspace}}/gtest/build \
-             -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} \
              gtest \
              -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps \
              -DBUILD_SHARED_LIBS=ON
