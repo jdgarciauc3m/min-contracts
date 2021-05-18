@@ -1,0 +1,58 @@
+name: MacOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        cxx: clang++
+        buildtype: [Debug, Release]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get GoogleTest
+        uses: actions/checkout@v2
+        with:
+          repository: google/googletest
+          path: gtest
+
+      - name: Configure GTest Build
+        env:
+          CXX: ${{matrix.cxx}}
+          CXXFLAGS: ${{matrix.cxxflags}}
+        run: cmake -B ${{github.workspace}}/gtest/build -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} gtest -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps
+
+      - name: Build GTest
+        run: cmake --build ${{github.workspace}}/gtest/build --config ${{matrix.buildtype}}
+
+      - name: Install GTest
+        run: cmake --install ${{github.workspace}}/gtest/build --config ${{matrix.buildtype}}
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        env:
+          CXX: ${{matrix.cxx}}
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/deps
+
+      - name: Build
+        # Build your program with the given configuration
+        run: cmake --build ${{github.workspace}}/build --config ${{matrix.buildtype}}
+
+      - name: Test
+        working-directory: ${{github.workspace}}/build
+        # Execute tests defined by the CMake configuration.
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: ctest -C ${{matrix.buildtype}}
+
