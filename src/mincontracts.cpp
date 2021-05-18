@@ -36,7 +36,8 @@ namespace mincontracts {
   void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
       std::string_view function, std::string_view file, std::size_t line) {
-    if (!cond) CONTRACT_UNLIKELY {
+    if (!cond) {
+      CONTRACT_UNLIKELY;
       contract_log(label, cond_text, function, file, line);
       std::terminate();
     }
