@@ -17,11 +17,6 @@ jobs:
       matrix:
         cxx: [g++-10, g++-11, clang++-11]
         buildtype: [Debug, Release]
-        include:
-          - cxx: clang++-11
-            cxxflags: -stdlib=libc++
-            install: sudo apt install libc++-11-dev libc++abi-11-dev
-    
 
     steps:
     - uses: actions/checkout@v2
