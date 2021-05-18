@@ -19,12 +19,12 @@
 #include <cmath>
 
 double mysqrt(double x) {
-  contract_pre(x>=0);
+  CONTRACT_PRE(x>=0);
   return std::sqrt(x);
 }
 
 void unique_sorted(std::vector<double> & v) {
-  contract_pre_audit(std::is_sorted(v.begin(), v.end()));
+  CONTRACT_PRE_AUDIT(std::is_sorted(v.begin(), v.end()));
   auto end = std::unique(v.begin(), v.end());
   v.erase(end, v.end());
 }
@@ -38,13 +38,13 @@ TEST(preconditions, fail) { // NOLINT
   ASSERT_DEATH(mysqrt(-1),"Precondition");
 }
 
-TEST(pre_audit, ok) { // NOLINT
+TEST(pre_AUDIT, ok) { // NOLINT
   std::vector<double> v {1, 1, 2, 2, 2, 3};
   unique_sorted(v);
   ASSERT_EQ(3, v.size());
 }
 
-TEST(pre_audit, fail) { // NOLINT
+TEST(pre_AUDIT, fail) { // NOLINT
   std::vector<double> v {1, 2, 1, 2, 2, 2, 3};
   ASSERT_DEBUG_DEATH(unique_sorted(v), "Precondition");
 }

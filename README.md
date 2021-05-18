@@ -14,21 +14,29 @@ The library provides all assertions in two levels:
   * **Audit level**: Are only checked in *Debug* mode (i.e. when NDEBUG is 
     not defined).
     
-As a rule of thumb, you use audit level checks for those ones that increase the 
-cost of the task being carried out.
+As a rule of thumb, you use audit level checks for those that sifnificantly
+increase the cost of the task being carried out.
 
 ## Preconditions
 
-A precondition can be specified at the start of a function body by using the macro `contract_pre`:
+A precondition can be specified at the start of a function body by using the macro 
+`CONTRACT_PRE`:
 
 ```c++
 double sqrt(double x) {
-  contract_pre(x>=0);
+  CONTRACT_PRE(x>=0);
   //...
 }
+```
 
+An audit version states preconditions that are only checked in debug builds,
+but not in release builds. That is, the checks are only performed when the
+symbol `DNDEBUG` is not defined. Audit checks are expected to be used for
+those predicates that are more expensive to check.
+
+```c++
 void unique_sorted(std::vector<double> & v) {
-  contract_pre_audit(std::is_sorted(v.begin(), v.end()));
+  CONTRACT_PRE_AUDIT(std::is_sorted(v.begin(), v.end()));
   auto end = std::unique(v.begin(), v.end());
   v.erase(end, v.end());
 }
@@ -36,48 +44,50 @@ void unique_sorted(std::vector<double> & v) {
 
 ## Postconditions
 
-A postcondition can be specified at the end of a function body by using the macro `contract_post`:
+A postcondition can be specified at the end of a function body by using the macro 
+`CONTRACT_POST`. There is also an audit version:
 
 ```c++
 double sqrt(double x) {
   double result = //...
   //...
-  contract_post(result>0);
-  contract_post(result<x);
+  CONTRACT_POST(result>0);
+  CONTRACT_POST(result<x);
   return result;
 }
 
 void mysort(std::vector<double> & v) {
   //...
-  contract_post_audit(std::is_sorted(v));
+  CONTRACT_POST_AUDIT(std::is_sorted(v));
 }
 ```
 
-When a postcondition uses the return expression in the predicated to be evaluated,
-a special kind of postcondition can be used with `contract_post_result`:
+When a postcondition uses the return expression in the predicate to be evaluated,
+a special kind of postcondition can be used with `CONTRACT_POST_RESULT`:
 
 ```c++
 double mysqrt(double x) {
-  contract_pre(x>=0);
-  auto post = contract_post_result(r, r>0 && r<x);
+  CONTRACT_PRE(x>=0);
+  auto post = CONTRACT_POST_result(r, r>0 && r<x);
   return post(std::sqrt(x));
 }
 ```
 
 ## Assertions
 
-A general assertion can be specified at any point in code by using macro `contract_assert`:
+A general assertion can be specified at any point in code by using macro `CONTRACT_ASSERT`:
 
 ```c++
 void f() {
 //...
 for (int i=0; i<10; ++i) {
-  contract_assert(i>=0 && i<10);
+  CONTRACT_ASSERT(i>=0 && i<10);
   //...
 }
 ```
 
-There is also a `contract_assert_audit(cond)` version.
+There is also a `CONTRACT_ASSERT_AUDIT(cond)` version, which is only
+checked in debug builds (i.e. when NDEBUG is undefined).
 
 # Acknowledgments
 

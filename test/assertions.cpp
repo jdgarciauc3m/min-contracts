@@ -20,8 +20,8 @@
 int suma(int i, int j) {
   int r = 0;
   for (int k=i; k<j; ++k) {
-    contract_assert(k>=i);
-    contract_assert(k<j);
+    CONTRACT_ASSERT(k>=i);
+    CONTRACT_ASSERT(k<j);
     r +=k;
   }
   return r;

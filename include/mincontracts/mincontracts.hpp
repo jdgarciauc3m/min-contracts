@@ -23,42 +23,42 @@ namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
       std::string_view function, std::string_view file, std::size_t line);
 
-  void contract_check_impl(bool cond,
+  void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
       std::string_view function, std::string_view file, std::size_t line);
 }
 
 
-#define contract_check(label,cond) \
-mincontracts::contract_check_impl(cond, label, #cond, __func__, __FILE__, __LINE__);
+#define CONTRACT_CHECK(label,cond) \
+mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 
-#define contract_pre(cond) contract_check("Precondition", cond)
-#define contract_post(cond) contract_check("Postcondition", cond)
-#define contract_assert(cond) contract_check("Assertion", cond)
+#define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond)
+#define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond)
+#define CONTRACT_ASSERT(cond) CONTRACT_CHECK("Assertion", cond)
 
-#define contract_post_result(res,cond)      \
+#define CONTRACT_POST_RESULT(res,cond)      \
 [&](auto && (res)) -> auto &&{              \
-  contract_post(cond);                      \
+  CONTRACT_POST(cond);                      \
   return std::forward<decltype(res)>(res);  \
 }
 
 
 #ifdef NDEBUG
-#define contract_pre_audit(cond)
+#define CONTRACT_PRE_AUDIT(cond)
 #else
-#define contract_pre_audit(cond) contract_check("Precondition", cond)
+#define CONTRACT_PRE_AUDIT(cond) CONTRACT_CHECK("Precondition", cond)
 #endif
 
 #ifdef NDEBUG
-#define contract_post_audit(cond)
+#define CONTRACT_POST_AUDIT(cond)
 #else
-#define contract_post_audit(cond) contract_check("Postcondition", cond)
+#define CONTRACT_POST_AUDIT(cond) CONTRACT_CHECK("Postcondition", cond)
 #endif
 
 #ifdef NDEBUG
-#define contract_assert_audit(cond)
+#define CONTRACT_ASSERT_AUDIT(cond)
 #else
-#define contract_assert_audit(cond) contract_check("Assertion", cond)
+#define CONTRACT_ASSERT_AUDIT(cond) CONTRACT_CHECK("Assertion", cond)
 #endif
 
 

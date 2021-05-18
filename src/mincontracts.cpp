@@ -22,7 +22,7 @@ namespace mincontracts {
               " failed in function " << function << "() ["<< file << ":" << line << "]\n";
   }
 
-  void contract_check_impl(bool cond,
+  void contract_check(bool cond,
       std::string_view label, std::string_view cond_text,
       std::string_view function, std::string_view file, std::size_t line)
       {

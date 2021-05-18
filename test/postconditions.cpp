@@ -19,17 +19,17 @@
 #include <cmath>
 
 double mysqrt2(double x) {
-  contract_pre(x>=0);
+  CONTRACT_PRE(x>=0);
   auto result = std::sqrt(x);
-  contract_post(result>0); // Wrong on purpose
-  contract_post(result<=x);
+  CONTRACT_POST(result>0); // Wrong on purpose
+  CONTRACT_POST(result<=x);
   return result;
 }
 
 
 double mysqrt3(double x) {
-  contract_pre(x>=0);
-  auto post = contract_post_result(r,r>0 && r<=x);
+  CONTRACT_PRE(x>=0);
+  auto post = CONTRACT_POST_RESULT(r,r>0 && r<=x);
   return post(std::sqrt(x));
 }
 
