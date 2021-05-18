@@ -29,12 +29,16 @@ jobs:
           path: gtest
 
       - name: Configure GTest Build
-        run: cmake -B ${{github.workspace}}/gtest/build -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} gtest -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps
+        run: cmake -B ${{github.workspace}}/gtest/build \
+             -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} \
+             gtest \
+             -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps \
+             -DBUILD_SHARED_LIBS=ON
 
       - name: Build GTest
         run: cmake --build ${{github.workspace}}/gtest/build \
-             --config ${{matrix.buildtype}} \
-             -DBUILD_SHARED_LIBS=ON
+             --config ${{matrix.buildtype}}
+
       - name: Install GTest
         run: cmake --install ${{github.workspace}}/gtest/build --config ${{matrix.buildtype}}
 
