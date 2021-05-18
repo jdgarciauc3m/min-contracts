@@ -4,6 +4,8 @@
 
 [![MacOS builds](https://github.com/jdgarciauc3m/min-contracts/actions/workflows/macos.yml/badge.svg)](https://github.com/jdgarciauc3m/min-contracts/actions)
 
+[![Windows builds](https://github.com/jdgarciauc3m/min-contracts/actions/workflows/windows.yml/badge.svg)](https://github.com/jdgarciauc3m/min-contracts/actions)
+
 Minimal contracts library tries to offer a minimal library only solution to support contracts in modern C++.
 
 The library offers:
