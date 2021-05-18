@@ -16,10 +16,14 @@
 #include "mincontracts/mincontracts.hpp"
 
 #include <gtest/gtest.h>
+
 #include <cmath>
 
+#include <algorithm>
+#include <vector>
+
 double mysqrt(double x) {
-  CONTRACT_PRE(x>=0);
+  CONTRACT_PRE(x >= 0);
   return std::sqrt(x);
 }
 
@@ -31,20 +35,20 @@ void unique_sorted(std::vector<double> & v) {
 
 TEST(preconditions, ok) { // NOLINT
   auto x = mysqrt(1);
-  ASSERT_GE(x,0);
+  ASSERT_GE(x, 0);
 }
 
 TEST(preconditions, fail) { // NOLINT
-  ASSERT_DEATH(mysqrt(-1),"Precondition");
+  ASSERT_DEATH(mysqrt(-1), "Precondition");
 }
 
 TEST(pre_AUDIT, ok) { // NOLINT
-  std::vector<double> v {1, 1, 2, 2, 2, 3};
+  std::vector<double> v{1, 1, 2, 2, 2, 3};
   unique_sorted(v);
   ASSERT_EQ(3, v.size());
 }
 
 TEST(pre_AUDIT, fail) { // NOLINT
-  std::vector<double> v {1, 2, 1, 2, 2, 2, 3};
+  std::vector<double> v{1, 2, 1, 2, 2, 2, 3};
   ASSERT_DEBUG_DEATH(unique_sorted(v), "Precondition");
 }
