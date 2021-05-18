@@ -30,7 +30,7 @@ jobs:
       - name: Configure GTest Build
         run: cmake -B ${{github.workspace}}/gtest/build \
              gtest \
-             -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps \
+             -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/deps
 
       - name: Build GTest
         run: cmake --build ${{github.workspace}}/gtest/build \
@@ -44,7 +44,7 @@ jobs:
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
         run: cmake -B ${{github.workspace}}/build \
-             -DCMAKE_BUILD_TYPE=${{matrix.buildtype}}
+             -DCMAKE_BUILD_TYPE=${{matrix.buildtype}} \
              -DCMAKE_PREFIX_PATH=${{github.workspace}}/deps
 
       - name: Build
