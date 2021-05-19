@@ -1,8 +1,12 @@
 find_package(GTest)
 
-include_directories(../include)
+if(GTest_FOUND)
 
-add_executable(utest preconditions.cpp postconditions.cpp assertions.cpp)
-target_link_libraries(utest mincontracts GTest::GTest GTest::Main)
+  option(${PROJECT_NAME}_TESTS "Enable unit testing" ON)
+  if(${PROJECT_NAME}_TESTS)
+    add_executable(utest preconditions.cpp postconditions.cpp assertions.cpp)
+    target_link_libraries(utest mincontracts GTest::GTest GTest::Main)
+    gtest_discover_tests(utest)
+  endif()
 
-gtest_discover_tests(utest)
+endif(GTest_FOUND)

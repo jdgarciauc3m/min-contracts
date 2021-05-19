@@ -33,6 +33,25 @@ The following requirements must be met to use the library:
 If you want to run the unit tests you will need:
   * Google Test (available at [GitHub repo](https://github.com/google/googletest)).
     Please, use the latest available version.
+    If Google Test library is not found, the unit tests will not be available but
+    you will be able to install the library.
+    
+## Running the tests
+
+Unit tests can be disabled by setting the option `mincontracts_TESTS` to `OFF`.
+
+To run the tests, simply use CTest, from the build directory, passing the desired 
+configuration.
+
+```shell
+ctest
+```
+
+If you want more verbose output for the tests, you can use:
+
+```shell
+ctest -VV
+```
 
 # Acknowledgments
 
