@@ -36,6 +36,33 @@ If you want to run the unit tests you will need:
     If Google Test library is not found, the unit tests will not be available but
     you will be able to install the library.
     
+## Installing the sources
+
+Clone the project:
+
+```shell
+git clone git@github.com:jdgarciauc3m/min-contracts.git
+```
+
+## Building the library
+
+To build the library out of source, create a directory and run `cmake`:
+
+```shell
+mkdir build
+cd build
+cmake .. -D_CMAKE_BUILD_TYPE=Release  # Configure build process
+make
+```
+
+## Installing the library
+
+You can install the library with the target `install`.
+
+```shell
+make install
+```
+
 ## Running the tests
 
 Unit tests can be disabled by setting the option `mincontracts_TESTS` to `OFF`.
