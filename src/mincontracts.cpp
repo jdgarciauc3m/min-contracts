@@ -17,27 +17,26 @@
 
 namespace mincontracts {
   void contract_log(std::string_view label, std::string_view cond,
-      std::string_view function, std::string_view file,
-      std::size_t line) noexcept {
-    std::cerr << label << ": " << cond <<
-              " failed in function " << function << "() [" << file << ":" << line << "]\n";
+                    std::string_view function, std::string_view file,
+                    std::size_t line) noexcept {
+    std::cerr << label << ": " << cond << " failed in function " << function << "() [" << file << ":" << line << "]\n";
   }
 
 
 #ifdef __has_cpp_attribute
-#if __has_cpp_attribute(unlikely)
-#define CONTRACT_UNLIKELY [[unlikely]]
+#  if __has_cpp_attribute(unlikely)
+#    define CONTRACT_UNLIKELY [[unlikely]]
+#  else
+#    define CONTRACT_UNLIKELY
+#  endif
 #else
-#define CONTRACT_UNLIKELY
-#endif
-#else
-#define CONTRACT_UNLIKELY
+#  define CONTRACT_UNLIKELY
 #endif
 
   void contract_check(bool cond,
-      std::string_view label, std::string_view cond_text,
-      std::string_view function, std::string_view file,
-      std::size_t line) noexcept {
+                      std::string_view label, std::string_view cond_text,
+                      std::string_view function, std::string_view file,
+                      std::size_t line) noexcept {
     if (!cond) {
       CONTRACT_UNLIKELY;
       contract_log(label, cond_text, function, file, line);
@@ -46,4 +45,4 @@ namespace mincontracts {
   }
 #undef CONTRACT_UNLIKELY
 
-}
+}// namespace mincontracts

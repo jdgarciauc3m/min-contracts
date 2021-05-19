@@ -19,15 +19,15 @@
 
 int suma(int i, int j) {
   int r = 0;
-  for (int k=i; k<j; ++k) {
-    CONTRACT_ASSERT(k>=i);
-    CONTRACT_ASSERT(k<j);
-    r +=k;
+  for (int k = i; k < j; ++k) {
+    CONTRACT_ASSERT(k >= i);
+    CONTRACT_ASSERT(k < j);
+    r += k;
   }
   return r;
 }
 
-TEST(assertion, ok) { // NOLINT
-  auto r = suma(2,4);
+TEST(assertion, ok) {// NOLINT
+  auto r = suma(2, 4);
   ASSERT_EQ(5, r);
 }
