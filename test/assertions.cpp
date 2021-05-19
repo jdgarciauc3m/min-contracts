@@ -17,7 +17,7 @@
 
 #include <gtest/gtest.h>
 
-int suma(int i, int j) {
+int add(int i, int j) {
   int r = 0;
   for (int k = i; k < j; ++k) {
     CONTRACT_ASSERT(k >= i);
@@ -28,6 +28,6 @@ int suma(int i, int j) {
 }
 
 TEST(assertion, ok) {// NOLINT
-  auto r = suma(2, 4);
+  auto r = add(2, 4);
   ASSERT_EQ(5, r);
 }

@@ -25,7 +25,7 @@ namespace mincontracts {
 
 #ifdef __has_cpp_attribute
 #  if __has_cpp_attribute(unlikely)
-#    define CONTRACT_UNLIKELY [[unlikely]]
+#    define CONTRACT_UNLIKELY [[unlikely]] // NOLINT
 #  else
 #    define CONTRACT_UNLIKELY
 #  endif
