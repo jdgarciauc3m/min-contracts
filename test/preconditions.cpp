@@ -39,7 +39,7 @@ TEST(preconditions, ok) { // NOLINT
 }
 
 TEST(preconditions, fail) { // NOLINT
-  ASSERT_DEATH(mysqrt(-1), "Precondition");
+  ASSERT_DEATH(mysqrt(-1), "Precondition"); // NOLINT
 }
 
 TEST(pre_AUDIT, ok) { // NOLINT
@@ -50,5 +50,5 @@ TEST(pre_AUDIT, ok) { // NOLINT
 
 TEST(pre_AUDIT, fail) { // NOLINT
   std::vector<double> v{1, 2, 1, 2, 2, 2, 3};
-  ASSERT_DEBUG_DEATH(unique_sorted(v), "Precondition");
+  ASSERT_DEBUG_DEATH(unique_sorted(v), "Precondition"); // NOLINT
 }

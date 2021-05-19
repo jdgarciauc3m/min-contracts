@@ -18,7 +18,7 @@
 #include <cmath>
 #include <gtest/gtest.h>
 
-double mysqrt2(double x) {
+double mysqrt_2(double x) {
   CONTRACT_PRE(x >= 0);
   auto result = std::sqrt(x);
   CONTRACT_POST(result > 0);// Wrong on purpose
@@ -27,26 +27,26 @@ double mysqrt2(double x) {
 }
 
 
-double mysqrt3(double x) {
+double mysqrt_3(double x) {
   CONTRACT_PRE(x >= 0);
   auto post = CONTRACT_POST_RESULT(r, r > 0 && r <= x);
   return post(std::sqrt(x));
 }
 
 TEST(postconditions, ok) {// NOLINT
-  auto r = mysqrt2(1);
+  auto r = mysqrt_2(1);
   ASSERT_EQ(1, r);
 }
 
 TEST(postconditions, fail) {// NOLINT
-  ASSERT_DEATH(mysqrt2(0), "Postcondition");
+  ASSERT_DEATH(mysqrt_2(0), "Postcondition"); // NOLINT
 }
 
 TEST(postconditions_result, ok) {// NOLINT
-  auto r = mysqrt3(1);
+  auto r = mysqrt_3(1);
   ASSERT_EQ(1, r);
 }
 
 TEST(postconditions_result, fail) {// NOLINT
-  ASSERT_DEATH(mysqrt3(0), "Postcondition");
+  ASSERT_DEATH(mysqrt_3(0), "Postcondition"); // NOLINT
 }

@@ -13,8 +13,8 @@
 //    limitations under the License.
 //
 
-#ifndef MIN_CONTRACTS_HPP
-#define MIN_CONTRACTS_HPP
+#ifndef MINCONTRACTS_MINCONTRACTS_HPP
+#define MINCONTRACTS_MINCONTRACTS_HPP
 
 #include <iostream>
 #include <string_view>
@@ -30,14 +30,15 @@ namespace mincontracts {
                       std::size_t line) noexcept;
 }// namespace mincontracts
 
-
+// NOLINTNEXTLINE
 #define CONTRACT_CHECK(label, cond) \
   mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
 
-#define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond)
-#define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond)
-#define CONTRACT_ASSERT(cond) CONTRACT_CHECK("Assertion", cond)
+#define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond) // NOLINT
+#define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond) // NOLINT
+#define CONTRACT_ASSERT(cond) CONTRACT_CHECK("Assertion", cond) // NOLINT
 
+// NOLINTNEXTLINE
 #define CONTRACT_POST_RESULT(res, cond)      \
   [&](auto && (res)) -> auto && {            \
     CONTRACT_POST(cond);                     \
@@ -48,20 +49,20 @@ namespace mincontracts {
 #ifdef NDEBUG
 #  define CONTRACT_PRE_AUDIT(cond)
 #else
-#  define CONTRACT_PRE_AUDIT(cond) CONTRACT_CHECK("Precondition", cond)
+#  define CONTRACT_PRE_AUDIT(cond) CONTRACT_CHECK("Precondition", cond) // NOLINT
 #endif
 
 #ifdef NDEBUG
 #  define CONTRACT_POST_AUDIT(cond)
 #else
-#  define CONTRACT_POST_AUDIT(cond) CONTRACT_CHECK("Postcondition", cond)
+#  define CONTRACT_POST_AUDIT(cond) CONTRACT_CHECK("Postcondition", cond) // NOLINT
 #endif
 
 #ifdef NDEBUG
 #  define CONTRACT_ASSERT_AUDIT(cond)
 #else
-#  define CONTRACT_ASSERT_AUDIT(cond) CONTRACT_CHECK("Assertion", cond)
+#  define CONTRACT_ASSERT_AUDIT(cond) CONTRACT_CHECK("Assertion", cond) // NOLINT
 #endif
 
 
-#endif// MIN_CONTRACTS_HPP
+#endif// MINCONTRACTS_MINCONTRACTS_HPP
