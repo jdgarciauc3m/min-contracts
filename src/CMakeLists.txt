@@ -1,5 +1,5 @@
 # set headers
-set(header_path "${MINCONTRACTS_SOURCE_DIR}/include/mincontracts")
+set(header_path "${mincontracts_SOURCE_DIR}/include/mincontracts")
 set(header
     ${header_path}/mincontracts.hpp)
 
@@ -10,8 +10,8 @@ set_target_properties(mincontracts PROPERTIES
                       PUBLIC_HEADER "../include/mincontracts/mincontracts.hpp")
 
 target_include_directories(mincontracts PUBLIC
-                           $<BUILD_INTERFACE:${MINCONTRACTS_BINARY_DIR}/include>
-                           $<BUILD_INTERFACE:${MINCONTRACTS_SOURCE_DIR}/include>
+                           $<BUILD_INTERFACE:${mincontracts_BINARY_DIR}/include>
+                           $<BUILD_INTERFACE:${mincontracts_SOURCE_DIR}/include>
                            $<INSTALL_INTERFACE:include>
                            )
 
