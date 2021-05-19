@@ -1,31 +1,31 @@
 # set headers
-set(header_path "${mincontracts_SOURCE_DIR}/include/mincontracts")
+set(header_path "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}")
 set(header
     ${header_path}/mincontracts.hpp)
 
 set(src mincontracts.cpp)
 
 add_library(mincontracts ${header} ${src})
-set_target_properties(mincontracts PROPERTIES
-                      PUBLIC_HEADER "../include/mincontracts/mincontracts.hpp")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+                      PUBLIC_HEADER "../include/${PROJECT_NAME}/mincontracts.hpp")
 
-target_include_directories(mincontracts PUBLIC
-                           $<BUILD_INTERFACE:${mincontracts_BINARY_DIR}/include>
-                           $<BUILD_INTERFACE:${mincontracts_SOURCE_DIR}/include>
+target_include_directories(${PROJECT_NAME} PUBLIC
+                           $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+                           $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                            $<INSTALL_INTERFACE:include>
                            )
 
-install(TARGETS mincontracts EXPORT mincontractsConfig
-        LIBRARY DESTINATION lib/mincontracts
-        ARCHIVE DESTINATION lib/mincontracts
-        RUNTIME DESTINATION bin/mincontracts
-        PUBLIC_HEADER DESTINATION include/mincontracts
-        PRIVATE_HEADER DESTINATION include/mincontracts)
+install(TARGETS ${PROJECT_NAME} EXPORT mincontractsConfig
+        LIBRARY DESTINATION lib/${PROJECT_NAME}
+        ARCHIVE DESTINATION lib/${PROJECT_NAME}
+        RUNTIME DESTINATION bin/${PROJECT_NAME}
+        PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
+        PRIVATE_HEADER DESTINATION include/${PROJECT_NAME})
 
 install(EXPORT mincontractsConfig
         FILE mincontractsConfig.cmake
         NAMESPACE mincontracts::
-        DESTINATION lib/cmake/mincontracts)
+        DESTINATION lib/cmake/${PROJECT_NAME})
 
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
@@ -35,14 +35,14 @@ write_basic_package_version_file(
 install(
     FILES
     "${CMAKE_BINARY_DIR}/mincontractsConfigVersion.cmake"
-    DESTINATION lib/cmake/mincontracts)
+    DESTINATION lib/cmake/${PROJECT_NAME})
 
 add_custom_target(
     uninstall
-    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/cmake/mincontracts"
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/cmake/mincontracts
-    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/mincontracts"
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/mincontracts
-    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/include/mincontracts"
-    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/include/mincontracts
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}
 )
