@@ -28,11 +28,27 @@ namespace mincontracts {
                       std::string_view label, std::string_view cond_text,
                       std::string_view function, std::string_view file,
                       std::size_t line) noexcept;
+
+#if defined(__GNUC__) || defined(__clang__)
+#if __has_builtin(__builtin_unreachable)
+inline constexpr void unreachable() { __builtin_unreachable(); }
+#else
+  inline constexpr void unreachable() { }
+#endif
+#elif defined(_MSVC_VER)
+  inline constexpr void unreachable() { __assume(false); }
+#else
+  inline constexpr void unreachable() { }
+#endif
+
 }// namespace mincontracts
+
+
 
 // NOLINTNEXTLINE
 #define CONTRACT_CHECK(label, cond) \
-  mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__);
+  mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__); \
+  ((cond))?static_cast<void>(0):__builtin_unreachable();
 
 #define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond) // NOLINT
 #define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond) // NOLINT

@@ -27,7 +27,24 @@ int add(int i, int j) {
   return r;
 }
 
+bool even(int n) {
+  switch (n) {
+    case 1:
+    case 3:
+      return true;
+    case 2:
+    case 4:
+      return false;
+    default:
+      CONTRACT_ASSERT(false);
+  }
+}
+
 TEST(assertion, ok) {// NOLINT
   auto r = add(2, 4);
   ASSERT_EQ(5, r);
+}
+
+TEST(assertion,default_branch) { //NOLINT
+  ASSERT_DEATH(even(5), "Assertion");
 }
