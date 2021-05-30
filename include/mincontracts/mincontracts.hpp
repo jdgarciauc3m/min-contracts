@@ -19,40 +19,31 @@
 #include <iostream>
 #include <string_view>
 
-namespace mincontracts {
-  void contract_log(std::string_view label, std::string_view cond,
-                    std::string_view function, std::string_view file,
-                    std::size_t line) noexcept;
-
-  void contract_check(bool cond,
-                      std::string_view label, std::string_view cond_text,
-                      std::string_view function, std::string_view file,
-                      std::size_t line) noexcept;
-
-#if defined(__GNUC__) || defined(__clang__)
-#if __has_builtin(__builtin_unreachable)
-inline constexpr void unreachable() { __builtin_unreachable(); }
+#ifdef __has_cpp_attribute
+#  if __has_cpp_attribute(unlikely)
+#    define CONTRACT_UNLIKELY [[unlikely]]// NOLINT
+#  else
+#    define CONTRACT_UNLIKELY
+#  endif
 #else
-  inline constexpr void unreachable() { }
+#  define CONTRACT_UNLIKELY
 #endif
-#elif defined(_MSVC_VER)
-  inline constexpr void unreachable() { __assume(false); }
-#else
-  inline constexpr void unreachable() { }
-#endif
-
-}// namespace mincontracts
-
-
 
 // NOLINTNEXTLINE
-#define CONTRACT_CHECK(label, cond) \
-  mincontracts::contract_check(cond, label, #cond, __func__, __FILE__, __LINE__); \
-  ((cond))?static_cast<void>(0):__builtin_unreachable();
+#define CONTRACT_CHECK(label, cond)                    \
+  if (!(cond)) {                                       \
+    CONTRACT_UNLIKELY;                                 \
+    std::cerr << (label) << ": " << (cond)             \
+              << " failed in function "                \
+              << __func__ << "() ["                    \
+              << __FILE__ << ":" << __LINE__ << "]\n"; \
+    std::terminate();                                  \
+  }
 
-#define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond) // NOLINT
-#define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond) // NOLINT
-#define CONTRACT_ASSERT(cond) CONTRACT_CHECK("Assertion", cond) // NOLINT
+
+#define CONTRACT_PRE(cond) CONTRACT_CHECK("Precondition", cond)  // NOLINT
+#define CONTRACT_POST(cond) CONTRACT_CHECK("Postcondition", cond)// NOLINT
+#define CONTRACT_ASSERT(cond) CONTRACT_CHECK("Assertion", cond)  // NOLINT
 
 // NOLINTNEXTLINE
 #define CONTRACT_POST_RESULT(res, cond)      \
@@ -65,19 +56,19 @@ inline constexpr void unreachable() { __builtin_unreachable(); }
 #ifdef NDEBUG
 #  define CONTRACT_PRE_AUDIT(cond)
 #else
-#  define CONTRACT_PRE_AUDIT(cond) CONTRACT_CHECK("Precondition", cond) // NOLINT
+#  define CONTRACT_PRE_AUDIT(cond) CONTRACT_CHECK("Precondition", cond)// NOLINT
 #endif
 
 #ifdef NDEBUG
 #  define CONTRACT_POST_AUDIT(cond)
 #else
-#  define CONTRACT_POST_AUDIT(cond) CONTRACT_CHECK("Postcondition", cond) // NOLINT
+#  define CONTRACT_POST_AUDIT(cond) CONTRACT_CHECK("Postcondition", cond)// NOLINT
 #endif
 
 #ifdef NDEBUG
 #  define CONTRACT_ASSERT_AUDIT(cond)
 #else
-#  define CONTRACT_ASSERT_AUDIT(cond) CONTRACT_CHECK("Assertion", cond) // NOLINT
+#  define CONTRACT_ASSERT_AUDIT(cond) CONTRACT_CHECK("Assertion", cond)// NOLINT
 #endif
 
 

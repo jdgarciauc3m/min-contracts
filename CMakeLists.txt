@@ -21,7 +21,49 @@ set(lib_dest "lib/mincontracts/${CMAKE_BUILD_TYPE}")
 set(cmake_dest "lib/cmake/mincontracts")
 set(cmake_build_dest "${cmake_dest}/${CMAKE_BUILD_TYPE}")
 
-add_subdirectory(src)
+set(PROJECT_HEADER_PATH "${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}")
+set(PROJECT_HEADERS
+    ${PROJECT_HEADER_PATH}/mincontracts.hpp)
+
+add_library(${PROJECT_NAME} INTERFACE
+            ${PROJECT_HEADERS})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+                      PUBLIC_HEADER ${PROJECT_HEADERS})
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}include/mincontracts>
+                           #$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include/mincontracts>
+                           )
+
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Config
+        PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
+        )
+
+install(EXPORT ${PROJECT_NAME}Config
+        FILE ${PROJECT_NAME}Config.cmake
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION lib/cmake/${PROJECT_NAME})
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" VERSION 1.0.0
+    COMPATIBILITY SameMajorVersion)
+
+install(
+    FILES
+    "${CMAKE_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION lib/cmake/${PROJECT_NAME})
+
+add_custom_target(
+    uninstall
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/cmake/${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}
+    COMMAND ${CMAKE_COMMAND} -E echo "Removing ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}"
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}
+)
 
 enable_testing()
 add_subdirectory(test)
